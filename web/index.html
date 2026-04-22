@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mojito</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <main class="layout">
+        <aside class="panel nav-panel">
+          <div class="brand">Mojito</div>
+          <p class="sidebar-copy">Plan your future net worth from one living financial profile.</p>
+
+          <form id="scenarioForm" class="stacked-form"></form>
+
+          <nav class="section-nav" aria-label="Planner sections">
+            <button type="button" class="nav-link active" data-section="home">Home</button>
+            <button type="button" class="nav-link" data-section="forecast">Forecast</button>
+            <button type="button" class="nav-link" data-section="real-estate">Real Estate</button>
+            <button type="button" class="nav-link" data-section="auto">Auto</button>
+            <button type="button" class="nav-link" data-section="account-balances">Account Balances</button>
+            <button type="button" class="nav-link" data-section="income">Income</button>
+            <button type="button" class="nav-link" data-section="bills">Bills</button>
+          </nav>
+        </aside>
+
+        <section class="main-panel">
+          <div class="main-header">
+            <div>
+              <p class="kicker">Mojito</p>
+              <h1 class="app-title">Net worth planning</h1>
+            </div>
+            <button id="saveButton" class="primary-button header-save" type="button">Save changes</button>
+          </div>
+
+          <div class="workspace-grid">
+            <section class="content-column">
+              <section class="panel content-section active" data-section="home">
+                <div class="panel-heading">
+                  <div>
+                    <p class="kicker">Home</p>
+                    <h2>Net worth over time</h2>
+                  </div>
+                </div>
+                <p class="helper-copy">
+                  This view centers the net worth timeline with time on the X
+                  axis and net worth on the Y axis.
+                </p>
+                <div class="graph-filter-row">
+                  <label class="filter-chip">
+                    <input type="checkbox" data-net-worth-filter="cash" checked />
+                    <span>Cash</span>
+                  </label>
+                  <label class="filter-chip">
+                    <input type="checkbox" data-net-worth-filter="investments" checked />
+                    <span>Investments</span>
+                  </label>
+                  <label class="filter-chip">
+                    <input type="checkbox" data-net-worth-filter="retirement" checked />
+                    <span>Retirement</span>
+                  </label>
+                  <label class="filter-chip">
+                    <input type="checkbox" data-net-worth-filter="realEstate" checked />
+                    <span>Real Estate</span>
+                  </label>
+                  <label class="filter-chip">
+                    <input type="checkbox" data-net-worth-filter="auto" checked />
+                    <span>Auto</span>
+                  </label>
+                  <label class="filter-chip">
+                    <input type="checkbox" data-net-worth-filter="debt" checked />
+                    <span>Debt</span>
+                  </label>
+                </div>
+                <div class="homepage-chart-shell">
+                  <div class="homepage-axis-label y-axis-label">Net Worth</div>
+                  <div class="homepage-chart-panel">
+                    <div class="homepage-chart-header">
+                      <p class="kicker">Home</p>
+                      <h3>Last 2 years to next 2 years</h3>
+                    </div>
+                    <div class="chart-card homepage-chart-card">
+                      <svg id="homeChart" viewBox="0 0 720 320" role="img" aria-label="Net worth over time"></svg>
+                    </div>
+                    <div class="homepage-axis-label x-axis-label">Time</div>
+                  </div>
+                </div>
+                <section class="net-worth-inspector">
+                  <div class="panel-heading compact">
+                    <div>
+                      <p class="kicker">Selected Date</p>
+                      <h3 id="selectedNetWorthDate">Choose a point on the chart</h3>
+                    </div>
+                    <p id="selectedNetWorthSummary" class="helper-copy">
+                      Hover over the graph, then click a point to inspect its balances.
+                    </p>
+                  </div>
+                  <p id="selectedDateHelper" class="helper-copy">
+                    Historical saved dates can be edited here. Current and forecast points stay read-only.
+                  </p>
+                  <div id="selectedDateBalances" class="account-sections"></div>
+                </section>
+              </section>
+
+              <section class="panel content-section" data-section="forecast">
+                <div class="panel-heading">
+                  <div>
+                    <p class="kicker">Forecast</p>
+                    <h2>Forecast settings and assumptions</h2>
+                  </div>
+                </div>
+
+                <div class="control-grid">
+                  <label>
+                    <span>Forecast length (months)</span>
+                    <input name="forecastMonths" type="number" min="24" step="12" form="scenarioForm" />
+                  </label>
+                  <label>
+                    <span>Annual investment return (%)</span>
+                    <input name="investmentReturn" type="number" step="0.1" form="scenarioForm" />
+                  </label>
+                  <label>
+                    <span>Annual income growth (%)</span>
+                    <input name="incomeGrowth" type="number" step="0.1" form="scenarioForm" />
+                  </label>
+                  <label>
+                    <span>Annual expense growth (%)</span>
+                    <input name="expenseGrowth" type="number" step="0.1" form="scenarioForm" />
+                  </label>
+                </div>
+              </section>
+
+              <section class="panel content-section" data-section="real-estate">
+                <div class="panel-heading">
+                  <div>
+                    <p class="kicker">Real Estate</p>
+                    <h2>Home value and mortgage</h2>
+                  </div>
+                </div>
+
+                <p class="helper-copy">
+                  Track your current home value, mortgage balance, and the assumptions that shape equity over time. The chart on the right compares home value against the loan over the forecast horizon.
+                </p>
+
+                <div class="control-grid">
+                  <label>
+                    <span>Current home value</span>
+                    <input name="homeValue" type="text" inputmode="decimal" data-currency-input form="scenarioForm" />
+                  </label>
+                  <label>
+                    <span>Annual home appreciation (%)</span>
+                    <input name="homeValueGrowth" type="number" step="0.1" form="scenarioForm" />
+                  </label>
+                  <label>
+                    <span>Current mortgage balance</span>
+                    <input name="mortgageBalance" type="text" inputmode="decimal" data-currency-input form="scenarioForm" />
+                  </label>
+                  <label>
+                    <span>Monthly mortgage paydown</span>
+                    <input name="monthlyMortgagePaydown" type="number" step="1" min="0" form="scenarioForm" />
+                  </label>
+                </div>
+              </section>
+
+              <section class="panel content-section" data-section="auto">
+                <div class="panel-heading">
+                  <div>
+                    <p class="kicker">Auto</p>
+                    <h2>Vehicle value and loan</h2>
+                  </div>
+                </div>
+
+                <p class="helper-copy">
+                  Track your current vehicle value, auto loan balance, and the assumptions that shape equity over time. The chart on the right compares vehicle value against the loan over the forecast horizon.
+                </p>
+
+                <div class="control-grid">
+                  <label>
+                    <span>Current vehicle value</span>
+                    <input name="autoValue" type="text" inputmode="decimal" data-currency-input form="scenarioForm" />
+                  </label>
+                  <label>
+                    <span>Annual vehicle value change (%)</span>
+                    <input name="autoValueGrowth" type="number" step="0.1" form="scenarioForm" />
+                  </label>
+                  <label>
+                    <span>Current auto loan balance</span>
+                    <input name="autoLoanBalance" type="text" inputmode="decimal" data-currency-input form="scenarioForm" />
+                  </label>
+                  <label>
+                    <span>Monthly auto loan paydown</span>
+                    <input name="monthlyAutoLoanPaydown" type="number" step="1" min="0" form="scenarioForm" />
+                  </label>
+                </div>
+              </section>
+
+              <section class="panel content-section" data-section="account-balances">
+                <div class="panel-heading">
+                  <div>
+                    <p class="kicker">Account Balances</p>
+                    <h2>Current account balances</h2>
+                  </div>
+                </div>
+                <div class="account-sections">
+                  <section class="account-group-card">
+                    <div class="panel-heading compact">
+                      <div>
+                        <p class="kicker">Assets</p>
+                        <h3>Investments</h3>
+                      </div>
+                    </div>
+                    <div class="account-table">
+                      <div class="account-table-header">
+                        <span>Account</span>
+                        <span>Type</span>
+                        <span>Balance</span>
+                        <span></span>
+                      </div>
+                      <div id="investmentAccountList" class="account-list"></div>
+                    </div>
+                  </section>
+
+                  <section class="account-group-card">
+                    <div class="panel-heading compact">
+                      <div>
+                        <p class="kicker">Assets</p>
+                        <h3>Cash</h3>
+                      </div>
+                    </div>
+                    <div class="account-table">
+                      <div class="account-table-header">
+                        <span>Account</span>
+                        <span>Type</span>
+                        <span>Balance</span>
+                        <span></span>
+                      </div>
+                      <div id="cashAccountList" class="account-list"></div>
+                    </div>
+                  </section>
+
+                  <section class="account-group-card">
+                    <div class="panel-heading compact">
+                      <div>
+                        <p class="kicker">Liabilities</p>
+                        <h3>Debt</h3>
+                      </div>
+                    </div>
+                    <div class="account-table">
+                      <div class="account-table-header">
+                        <span>Account</span>
+                        <span>Type</span>
+                        <span>Balance</span>
+                        <span></span>
+                      </div>
+                      <div id="debtAccountList" class="account-list"></div>
+                    </div>
+                  </section>
+                </div>
+
+                <button type="button" id="openAddAccountModal" class="secondary-button add-account-footer-button">
+                  Add account
+                </button>
+
+                <section class="expense-block first-block">
+                  <div class="panel-heading compact">
+                    <div>
+                      <p class="kicker">Liabilities</p>
+                      <h3>Total debt</h3>
+                    </div>
+                  </div>
+                  <div class="control-grid">
+                    <label>
+                      <span>Total debt</span>
+                      <input name="startingDebt" type="text" inputmode="decimal" form="scenarioForm" readonly />
+                    </label>
+                  </div>
+                </section>
+                <section class="expense-block">
+                  <div class="panel-heading compact">
+                    <div>
+                      <p class="kicker">History</p>
+                      <h3>Recent balances</h3>
+                    </div>
+                  </div>
+                  <div id="historyTable" class="history-table"></div>
+                </section>
+              </section>
+
+              <section class="panel content-section" data-section="income">
+                <div class="panel-heading">
+                  <div>
+                    <p class="kicker">Income</p>
+                    <h2>Recurring inflows</h2>
+                  </div>
+                </div>
+
+                <div class="account-table">
+                  <div class="account-table-header schedule-table-header">
+                    <span>Income source</span>
+                    <span>Frequency</span>
+                    <span>Start date</span>
+                    <span>Amount per paycheck</span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <div id="incomeList" class="account-list"></div>
+                </div>
+
+                <button type="button" id="addIncomeButton" class="secondary-button add-account-footer-button">
+                  Add income
+                </button>
+
+                <section class="expense-block">
+                  <div class="panel-heading compact">
+                    <div>
+                      <p class="kicker">One-time income</p>
+                      <h3>Non-recurring income</h3>
+                    </div>
+                  </div>
+
+                  <div class="account-table">
+                    <div class="account-table-header one-time-table-header">
+                      <span>Income source</span>
+                      <span>Date</span>
+                      <span>Amount</span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <div id="oneTimeIncomeList" class="account-list"></div>
+                  </div>
+
+                  <button type="button" id="addOneTimeIncomeButton" class="secondary-button add-account-footer-button">
+                    Add one-time income
+                  </button>
+                </section>
+
+                <section class="expense-block">
+                  <div class="panel-heading compact">
+                    <div>
+                      <p class="kicker">Transactions</p>
+                      <h3>Income transaction schedule</h3>
+                    </div>
+                  </div>
+                  <div id="incomeTransactionsTable" class="history-table"></div>
+                </section>
+              </section>
+
+              <section class="panel content-section" data-section="bills">
+                <div class="panel-heading">
+                  <div>
+                    <p class="kicker">Bills</p>
+                    <h2>Recurring bills</h2>
+                  </div>
+                </div>
+
+                <div class="account-table">
+                  <div class="account-table-header schedule-table-header">
+                    <span>Bill</span>
+                    <span>Frequency</span>
+                    <span>Start date</span>
+                    <span>Amount</span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <div id="billList" class="account-list"></div>
+                </div>
+
+                <button type="button" id="addBillButton" class="secondary-button add-account-footer-button">
+                  Add bill
+                </button>
+
+                <div class="control-grid">
+                  <label>
+                    <span>Annual bill growth (%)</span>
+                    <input name="expenseGrowth" type="number" step="0.1" form="scenarioForm" />
+                  </label>
+                </div>
+
+                <section class="expense-block">
+                  <div class="panel-heading compact">
+                    <div>
+                      <p class="kicker">One-time bills</p>
+                      <h3>Non-recurring bills</h3>
+                    </div>
+                  </div>
+
+                  <div class="account-table">
+                    <div class="account-table-header one-time-table-header">
+                      <span>Bill</span>
+                      <span>Date</span>
+                      <span>Amount</span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <div id="oneTimeBillList" class="account-list"></div>
+                  </div>
+
+                  <button type="button" id="addOneTimeBillButton" class="secondary-button add-account-footer-button">
+                    Add one-time bill
+                  </button>
+                </section>
+
+                <section class="expense-block">
+                  <div class="panel-heading compact">
+                    <div>
+                      <p class="kicker">Transactions</p>
+                      <h3>Bill transaction schedule</h3>
+                    </div>
+                  </div>
+                  <div id="billTransactionsTable" class="history-table"></div>
+                </section>
+              </section>
+            </section>
+
+            <aside class="forecast-rail">
+              <section class="panel forecast-panel">
+                <div class="panel-heading">
+                  <div>
+                    <p class="kicker" id="chartKicker">Homepage</p>
+                    <h2 id="chartTitle">Net worth across four years</h2>
+                  </div>
+                </div>
+
+                <div class="metrics" id="metrics"></div>
+                <div class="chart-card">
+                  <svg id="chart" viewBox="0 0 720 320" role="img" aria-label="Net worth chart"></svg>
+                </div>
+              </section>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="addAccountModal" class="account-modal">
+      <form method="dialog" class="account-modal-card">
+        <div class="panel-heading compact">
+          <div>
+            <p class="kicker">Add Account</p>
+            <h3>Choose an account type</h3>
+          </div>
+        </div>
+        <label>
+          <span>Account type</span>
+          <select id="newAccountType">
+            <option value="checking">Checking</option>
+            <option value="savings">Savings</option>
+            <option value="investments">Investments</option>
+            <option value="retirement">Retirement</option>
+            <option value="creditCards">Credit Card</option>
+            <option value="otherLoans">Other Loan</option>
+          </select>
+        </label>
+        <div class="modal-actions">
+          <button type="button" id="cancelAddAccount" class="secondary-button">Cancel</button>
+          <button type="button" id="confirmAddAccount" class="primary-button">Add</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
