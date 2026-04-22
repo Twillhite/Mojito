@@ -11,7 +11,6 @@
       <main class="layout">
         <aside class="panel nav-panel">
           <div class="brand">Mojito</div>
-          <p class="sidebar-copy">Plan your future net worth from one living financial profile.</p>
 
           <form id="scenarioForm" class="stacked-form"></form>
 
@@ -29,8 +28,7 @@
         <section class="main-panel">
           <div class="main-header">
             <div>
-              <p class="kicker">Mojito</p>
-              <h1 class="app-title">Net worth planning</h1>
+              <h1 id="appTitle" class="app-title">Home</h1>
             </div>
             <button id="saveButton" class="primary-button header-save" type="button">Save changes</button>
           </div>
@@ -40,7 +38,6 @@
               <section class="panel content-section active" data-section="home">
                 <div class="panel-heading">
                   <div>
-                    <p class="kicker">Home</p>
                     <h2>Net worth over time</h2>
                   </div>
                 </div>
@@ -78,7 +75,6 @@
                   <div class="homepage-axis-label y-axis-label">Net Worth</div>
                   <div class="homepage-chart-panel">
                     <div class="homepage-chart-header">
-                      <p class="kicker">Home</p>
                       <h3>Last 2 years to next 2 years</h3>
                     </div>
                     <div class="chart-card homepage-chart-card">
@@ -90,7 +86,6 @@
                 <section class="net-worth-inspector">
                   <div class="panel-heading compact">
                     <div>
-                      <p class="kicker">Selected Date</p>
                       <h3 id="selectedNetWorthDate">Choose a point on the chart</h3>
                     </div>
                     <p id="selectedNetWorthSummary" class="helper-copy">
@@ -107,7 +102,6 @@
               <section class="panel content-section" data-section="forecast">
                 <div class="panel-heading">
                   <div>
-                    <p class="kicker">Forecast</p>
                     <h2>Forecast settings and assumptions</h2>
                   </div>
                 </div>
@@ -135,7 +129,6 @@
               <section class="panel content-section" data-section="real-estate">
                 <div class="panel-heading">
                   <div>
-                    <p class="kicker">Real Estate</p>
                     <h2>Home value and mortgage</h2>
                   </div>
                 </div>
@@ -167,7 +160,6 @@
               <section class="panel content-section" data-section="auto">
                 <div class="panel-heading">
                   <div>
-                    <p class="kicker">Auto</p>
                     <h2>Vehicle value and loan</h2>
                   </div>
                 </div>
@@ -199,7 +191,6 @@
               <section class="panel content-section" data-section="account-balances">
                 <div class="panel-heading">
                   <div>
-                    <p class="kicker">Account Balances</p>
                     <h2>Current account balances</h2>
                   </div>
                 </div>
@@ -207,7 +198,6 @@
                   <section class="account-group-card">
                     <div class="panel-heading compact">
                       <div>
-                        <p class="kicker">Assets</p>
                         <h3>Investments</h3>
                       </div>
                     </div>
@@ -225,7 +215,6 @@
                   <section class="account-group-card">
                     <div class="panel-heading compact">
                       <div>
-                        <p class="kicker">Assets</p>
                         <h3>Cash</h3>
                       </div>
                     </div>
@@ -243,7 +232,6 @@
                   <section class="account-group-card">
                     <div class="panel-heading compact">
                       <div>
-                        <p class="kicker">Liabilities</p>
                         <h3>Debt</h3>
                       </div>
                     </div>
@@ -266,7 +254,6 @@
                 <section class="expense-block first-block">
                   <div class="panel-heading compact">
                     <div>
-                      <p class="kicker">Liabilities</p>
                       <h3>Total debt</h3>
                     </div>
                   </div>
@@ -280,7 +267,6 @@
                 <section class="expense-block">
                   <div class="panel-heading compact">
                     <div>
-                      <p class="kicker">History</p>
                       <h3>Recent balances</h3>
                     </div>
                   </div>
@@ -291,7 +277,6 @@
               <section class="panel content-section" data-section="income">
                 <div class="panel-heading">
                   <div>
-                    <p class="kicker">Income</p>
                     <h2>Recurring inflows</h2>
                   </div>
                 </div>
@@ -315,7 +300,6 @@
                 <section class="expense-block">
                   <div class="panel-heading compact">
                     <div>
-                      <p class="kicker">One-time income</p>
                       <h3>Non-recurring income</h3>
                     </div>
                   </div>
@@ -339,7 +323,6 @@
                 <section class="expense-block">
                   <div class="panel-heading compact">
                     <div>
-                      <p class="kicker">Transactions</p>
                       <h3>Income transaction schedule</h3>
                     </div>
                   </div>
@@ -350,7 +333,6 @@
               <section class="panel content-section" data-section="bills">
                 <div class="panel-heading">
                   <div>
-                    <p class="kicker">Bills</p>
                     <h2>Recurring bills</h2>
                   </div>
                 </div>
@@ -381,7 +363,6 @@
                 <section class="expense-block">
                   <div class="panel-heading compact">
                     <div>
-                      <p class="kicker">One-time bills</p>
                       <h3>Non-recurring bills</h3>
                     </div>
                   </div>
@@ -405,7 +386,6 @@
                 <section class="expense-block">
                   <div class="panel-heading compact">
                     <div>
-                      <p class="kicker">Transactions</p>
                       <h3>Bill transaction schedule</h3>
                     </div>
                   </div>
@@ -418,7 +398,6 @@
               <section class="panel forecast-panel">
                 <div class="panel-heading">
                   <div>
-                    <p class="kicker" id="chartKicker">Homepage</p>
                     <h2 id="chartTitle">Net worth across four years</h2>
                   </div>
                 </div>
@@ -438,7 +417,6 @@
       <form method="dialog" class="account-modal-card">
         <div class="panel-heading compact">
           <div>
-            <p class="kicker">Add Account</p>
             <h3>Choose an account type</h3>
           </div>
         </div>

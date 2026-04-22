@@ -7,11 +7,11 @@ import {
 
 const form = document.getElementById("scenarioForm");
 const saveButton = document.getElementById("saveButton");
+const appTitle = document.getElementById("appTitle");
 const metrics = document.getElementById("metrics");
 const historyTable = document.getElementById("historyTable");
 const chart = document.getElementById("chart");
 const homeChart = document.getElementById("homeChart");
-const chartKicker = document.getElementById("chartKicker");
 const chartTitle = document.getElementById("chartTitle");
 const selectedNetWorthDate = document.getElementById("selectedNetWorthDate");
 const selectedNetWorthSummary = document.getElementById("selectedNetWorthSummary");
@@ -1342,16 +1342,15 @@ function renderSnapshotAccountGroups(point, snapshot) {
   const debt = flattenSnapshotAccounts(snapshot.liabilityBalances, "liabilityBalances");
 
   return [
-    { title: "Investments", kicker: "Assets", rows: investments },
-    { title: "Cash", kicker: "Assets", rows: cash },
-    { title: "Debt", kicker: "Liabilities", rows: debt },
+    { title: "Investments", rows: investments },
+    { title: "Cash", rows: cash },
+    { title: "Debt", rows: debt },
   ]
     .map(
       (group) => `
         <section class="account-group-card">
           <div class="panel-heading compact">
             <div>
-              <p class="kicker">${group.kicker}</p>
               <h3>${group.title}</h3>
             </div>
           </div>
@@ -1586,6 +1585,11 @@ function setActiveSection(sectionName) {
   navLinks.forEach((link) => {
     link.classList.toggle("active", link.dataset.section === sectionName);
   });
+
+  const activeLink = navLinks.find((link) => link.dataset.section === sectionName);
+  if (activeLink && appTitle) {
+    appTitle.textContent = activeLink.textContent.trim();
+  }
 
   contentSections.forEach((section) => {
     section.classList.toggle("active", section.dataset.section === sectionName);
@@ -2012,7 +2016,6 @@ function renderRightRail() {
   }
 
   if (state.activeSection === "home") {
-    chartKicker.textContent = "Home";
     chartTitle.textContent = "Net worth across four years";
     renderMetrics([
       { label: "Net worth today", value: formatCurrency(netWorthTimeline[24].value) },
@@ -2035,7 +2038,6 @@ function renderRightRail() {
     const currentMonthIncome = incomeBarSeries[0]?.value || 0;
     const nextTwelveMonthAverage =
       incomeBarSeries.reduce((sum, point) => sum + point.value, 0) / Math.max(incomeBarSeries.length, 1);
-    chartKicker.textContent = "Income";
     chartTitle.textContent = "Monthly income for the next 12 months";
     renderMetrics([
       { label: "This month's income", value: formatCurrency(currentMonthIncome) },
@@ -2056,7 +2058,6 @@ function renderRightRail() {
     };
     const futurePoint =
       state.forecast.realEstatePoints?.[state.forecast.realEstatePoints.length - 1] || currentPoint;
-    chartKicker.textContent = "Real Estate";
     chartTitle.textContent = "Home value vs mortgage over time";
     renderMetrics([
       { label: "Home equity today", value: formatCurrency(currentPoint.equity || 0) },
@@ -2083,7 +2084,6 @@ function renderRightRail() {
     };
     const futurePoint =
       state.forecast.autoPoints?.[state.forecast.autoPoints.length - 1] || currentPoint;
-    chartKicker.textContent = "Auto";
     chartTitle.textContent = "Vehicle value vs loan over time";
     renderMetrics([
       { label: "Vehicle equity today", value: formatCurrency(currentPoint.equity || 0) },
@@ -2106,7 +2106,6 @@ function renderRightRail() {
     const currentMonthBills = billsBarSeries[0]?.value || 0;
     const nextTwelveMonthAverage =
       billsBarSeries.reduce((sum, point) => sum + point.value, 0) / Math.max(billsBarSeries.length, 1);
-    chartKicker.textContent = "Bills";
     chartTitle.textContent = "Monthly bills for the next 12 months";
     renderMetrics([
       { label: "This month's bills", value: formatCurrency(currentMonthBills) },
@@ -2116,14 +2115,6 @@ function renderRightRail() {
     return;
   }
 
-  chartKicker.textContent =
-    state.activeSection === "account-balances"
-      ? "Account Balances"
-      : state.activeSection === "forecast"
-        ? "Forecast"
-        : state.activeSection === "auto"
-          ? "Auto"
-        : "Home";
   chartTitle.textContent = "Net worth across four years";
   renderMetrics([
     { label: "Net worth today", value: formatCurrency(netWorthTimeline[24].value) },
